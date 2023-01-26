@@ -15,14 +15,33 @@ class ThuwedStalker:
 
     def find_pairs(self, thuwed_page_url="https://dragcave.net/thuwed"):
         """ Returns a list of pairs of Thuweds in the format [male, female]
-        from the /thuwed page """
+        from the /thuwed page
+        Each pair is in the format of [m code, f code]"""
+
+        # Gets the code for each dragon from a href attribute
+        def get_code(element):
+            href = element['href']
+            return href[href.rindex('/') + 1:]
+
+        # from https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
+        def divide_chunks(l, n):
+            # looping till length l
+            for i in range(0, len(l), n):
+                yield l[i:i + n]
 
         with urlopen(thuwed_page_url) as response:
-            html = response.read()
-            soup = BeautifulSoup(html, 'html.parser')
+            soup = BeautifulSoup(response.read(), 'html.parser')
 
-            pairings = soup.find_all("img", class_="spr")
-            print(pairings)
+            # Soup will return these in order of left to right, top to bottom
+            # so we then need to split them into sets of 2 codes (the male
+            # and the female)
+            pairings = soup.select("a[href^='/view/']")
+
+            # Make into a list of codes
+            codes = list(map(get_code, pairings))
+
+            pairs = divide_chunks(codes, 2)
+            print(list(pairs))
 
     def examine_clutch(self, code: str, dragcave_date_format='%b %d, %Y'):
         """Examines a dragon's progeny"""

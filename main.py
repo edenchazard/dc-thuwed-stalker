@@ -11,6 +11,7 @@ def main(cfg):
     """
     dc_api = DragCaveAPI(cfg.get("APIKey"))
     grabber = ThuwedStalker(dc_api)
+    grabber.find_pairs()
 
     # TODO automate script to grab codes, for testing purposes we use these.
     #grabber.findPairs()
