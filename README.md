@@ -27,8 +27,8 @@ python3 main.py
 
 ## TODOs
 
-- Script to automate fetching the list of Thuwed pairs.
 - Implement concurrency when calling the API for each pair. Right now, the synchronous nature of the code means API calls to the /progeny endpoint are made one at a time. This is really slow!
 - "Cache" the results for 7 days from the most recently bred date. They won't need to be regenerated within that period because Thuweds are bred irregularly but at minimum once a week.
 - Have a web interface that displays a simple list of the eggs with the code and parent names.
 - Possibly generate an image with the eggs?
+- Integrate unit testing.
