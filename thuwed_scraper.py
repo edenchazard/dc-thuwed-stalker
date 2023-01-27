@@ -6,7 +6,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from dragcave_api import DragCaveAPI
 
-class ThuwedStalker:
+class ThuwedScraper:
     """
         Provides methods for dealing with Thuweds.
     """
@@ -41,7 +41,7 @@ class ThuwedStalker:
             codes = list(map(get_code, pairings))
 
             pairs = divide_chunks(codes, 2)
-            print(list(pairs))
+            return list(pairs)
 
     def examine_clutch(self, code: str, dragcave_date_format='%b %d, %Y'):
         """Examines a dragon's progeny"""
