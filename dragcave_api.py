@@ -12,7 +12,7 @@ class DragCaveAPI:
         self.url = f"{api_url}/{api_key}/json"
         print("Using API url: ", self.url)
 
-    def call_api(self, endpoint: str, data=None or dict):
+    def call_api(self, endpoint: str, data: None or dict=None):
         """
         generic method to call a provided API endpoint
         """
