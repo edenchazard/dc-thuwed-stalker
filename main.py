@@ -45,10 +45,10 @@ def main(cfg):
         raise Exception("UNRECOGNISED DRAGON: " + code)
 
     # Loop through every pair and assign data to each
-    pairs = list(map(lambda pair: {
-        "m": assign_dragon_data(pair[0]),
-        "f": assign_dragon_data(pair[1])
-    }, pairs_as_codes))
+    def assign(pair):
+        return { "m": assign_dragon_data(pair[0]), "f": assign_dragon_data(pair[1]) }
+
+    pairs = [assign(pair) for pair in pairs_as_codes]
 
     print(pairs)
 

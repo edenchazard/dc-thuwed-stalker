@@ -19,7 +19,7 @@ class ProblemDragons:
         '''
         Returns a filtered list of codes with problem codes removed.
         '''
-        return set(filter(lambda code: code not in self.codes, code_list))
+        return { code for code in code_list if code not in self.codes }
 
 problem_dragons = ProblemDragons({
     # Replacement information

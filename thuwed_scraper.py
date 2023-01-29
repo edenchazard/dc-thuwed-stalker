@@ -38,7 +38,7 @@ class ThuwedScraper:
             pairings = soup.select("a[href^='/view/']")
 
             # Make into a list of codes
-            codes = list(map(get_code, pairings))
+            codes = [get_code(code) for code in pairings]
 
             pairs = divide_chunks(codes, 2)
             return list(pairs)
@@ -59,23 +59,25 @@ class ThuwedScraper:
                     date = datetime.strptime(child.get("start"), dragcave_date_format)
                     return date.timestamp()
 
-                bred_dates = list(map(date_to_timestamp, progeny_list))
+                bred_dates = [date_to_timestamp(child) for child in progeny_list]
                 earliest = max(bred_dates)
                 return datetime.fromtimestamp(earliest).strftime(dragcave_date_format)
 
             # creates a filter function that asserts whether a dragon
-            # matches our start date and is a qualified child of our parent
-            # dragons
-            def make_filter(parent_code: str, start_date: str):
+            # matches:
+            # 1) our start date
+            # 2) is a qualified child of our parent
+            # 3) the bred date matches our most recent date
+            def is_qualified_child(parent_code: str, start_date: str):
                 def filter_function(child):
                     parents = [child.get("parent_m"), child.get("parent_f")]
                     return parent_code in parents and child.get("start") == start_date
                 return filter_function
 
             earliest_date = most_recent_date(progeny_list)
-            print("MAX:", earliest_date)
+            #print("MAX:", earliest_date)
 
-            return list(filter(make_filter(code, earliest_date), progeny_list))
+            return [child for child in progeny_list if is_qualified_child(child, earliest_date)]
 
         recent = get_most_recent(self.api.get_children(code))
         print(recent)
